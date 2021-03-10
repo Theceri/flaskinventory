@@ -9,5 +9,5 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:54
 # db = SQLAlchemy(app)
 
 @app.route('/', methods = ['GET', 'POST'])
-def helloworld():
-    return "Hello world"
+def itemlisting():
+    return render_template('items.html')
