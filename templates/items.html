@@ -16,7 +16,7 @@
     <div class="container">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Launch demo modal
+            Add Item
         </button>
 
         <!-- Modal -->
@@ -24,35 +24,31 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST">
                             <div class="mb-3">
                                 <label for="" class="form-label">Item Name</label>
-                                <input type="text" class="form-control" id="item_name"
+                                <input type="text" class="form-control" name="item_name" id="item_name"
                                     aria-describedby="emailHelp">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Item Quantity</label>
-                                <input type="text" class="form-control" id="item_quantity"
+                                <input type="text" class="form-control" name="item_quantity" id="item_quantity"
                                     aria-describedby="">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Item Buying Price</label>
-                                <input type="text" class="form-control" id="item_buying_price"
+                                <input type="text" class="form-control" name="item_buying_price" id="item_buying_price"
                                     aria-describedby="">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Item Selling Price</label>
-                                <input type="text" class="form-control" id="item_selling_price"
+                                <input type="text" class="form-control" name="item_selling_price" id="item_selling_price"
                                     aria-describedby="">
                             </div>
-                            <!-- <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div> -->
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>

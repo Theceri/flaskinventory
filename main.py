@@ -10,4 +10,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:54
 
 @app.route('/', methods = ['GET', 'POST'])
 def itemlisting():
-    return render_template('items.html')
+    if request.method == 'GET':
+        return render_template('items.html')
+    else:
+        item_name = request.form['item_name']
+        item_quantity = request.form['item_quantity']
+        item_buying_price = request.form['item_buying_price']
+        item_selling_price = request.form['item_selling_price']
+
+        print(item_name, item_quantity, item_buying_price, item_selling_price)
+        
+        return redirect(url_for('itemlisting'))
+
+if __name__ == '__main__':
+    app.run(debug = True)
