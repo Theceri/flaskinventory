@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from configs.base_config import Development, Staging, Production
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object(Development)
@@ -14,12 +15,21 @@ def create_tables():
 
 class Item(db.Model):
     __tablename__ = 'items'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement = True)
     item_name = db.Column(db.String(80), unique=False, nullable=False)
     item_quantity = db.Column(db.Integer, unique=False)
     item_buying_price = db.Column(db.Integer, unique=False)
     item_selling_price = db.Column(db.Integer, unique=False)
 
+class Sale(db.Model):
+    __tablename__ = 'sales'
+    id = db.Column(db.Integer, primary_key=True, autoincrement = True)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    quantity = db.Column(db.Integer, unique=False)
+    created_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    
+    item = db.relationship('Item',
+        backref=db.backref('sales', lazy=True))
 
 @app.route('/', methods = ['GET', 'POST'])
 def itemlisting():
@@ -38,6 +48,20 @@ def itemlisting():
         
     items = Item.query.all()
     return render_template('items.html', items = items)
+
+@app.route('/sales', methods = ['POST'])
+def saleslisting():
+    if request.method == 'POST':
+        item_id = request.form['item_id']
+        quantity = request.form['item_quantity']
+        print("mama", item_id, quantity)
+
+        a = Sale(item_id = item_id, quantity = quantity)
+        db.session.add(a)
+        db.session.commit()
+        print("Record successfully added")
+        
+        return redirect(url_for('itemlisting'))
 
 if __name__ == '__main__':
     app.run(debug = True)
