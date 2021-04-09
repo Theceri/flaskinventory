@@ -63,5 +63,13 @@ def saleslisting():
         
         return redirect(url_for('itemlisting'))
 
+@app.route('/sale/<int:x>', methods = ['GET'])
+def itemsale(x):
+    if request.method == 'GET':
+        sale_items = Sale.query.filter_by(item_id = x).all()
+        print(sale_items)
+
+        return render_template('sales.html', items = sale_items)
+
 if __name__ == '__main__':
     app.run(debug = True)
