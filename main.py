@@ -64,12 +64,32 @@ def saleslisting():
         return redirect(url_for('itemlisting'))
 
 @app.route('/sale/<int:x>', methods = ['GET'])
-def itemsale(x):
+def itemsales(x):
     if request.method == 'GET':
-        sale_items = Sale.query.filter_by(item_id = x).all()
-        print(sale_items)
+        item_sales = Sale.query.filter_by(item_id = x).all()
+        print(item_sales)
 
-        return render_template('sales.html', items = sale_items)
+        return render_template('sales.html', items = item_sales)
+
+@app.route('/<int:y>/edit', methods = ['GET', 'POST'])
+def edit_item(y):
+    if request.method == 'GET':
+        item_to_edit = Item.query.filter_by(id = y).first()
+        print(item_to_edit)
+
+        return render_template('inventory_edit.html', item = item_to_edit)
+    else:
+        item_to_edit = Item.query.filter_by(id = y).first()
+        item_to_edit.item_name = request.form['item_name']
+        item_to_edit.item_quantity = request.form['item_quantity']
+        item_to_edit.item_buying_price = request.form['item_buying_price']
+        item_to_edit.item_selling_price = request.form['item_selling_price']
+
+        db.session.add(item_to_edit)
+        db.session.commit()
+        print("Record successfully edited")
+        
+        return redirect(url_for('itemlisting'))
 
 if __name__ == '__main__':
     app.run(debug = True)
