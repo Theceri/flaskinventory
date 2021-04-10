@@ -56,6 +56,16 @@ def saleslisting():
         quantity = request.form['item_quantity']
         print("mama", item_id, quantity)
 
+        item_to_edit = Item.query.filter_by(id = item_id).first()
+        item_to_edit.item_quantity = int(item_to_edit.item_quantity) - int(quantity)
+
+        if int(item_to_edit.item_quantity) - int(quantity) <= 0:
+            print("Quantity entered is more than the stock available")
+            return redirect(url_for('itemlisting'))
+            
+        db.session.add(item_to_edit)
+        db.session.commit()        
+
         a = Sale(item_id = item_id, quantity = quantity)
         db.session.add(a)
         db.session.commit()
