@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from configs.base_config import Development, Staging, Production
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import pygal
 
 app = Flask(__name__)
 app.config.from_object(Development)
@@ -47,6 +48,7 @@ def itemlisting():
         return redirect(url_for('itemlisting'))
         
     items = Item.query.all()
+
     return render_template('items.html', items = items)
 
 @app.route('/sales', methods = ['POST'])
@@ -54,15 +56,15 @@ def saleslisting():
     if request.method == 'POST':
         item_id = request.form['item_id']
         quantity = request.form['item_quantity']
-        print("mama", item_id, quantity)
+        print(item_id, quantity)
 
         item_to_edit = Item.query.filter_by(id = item_id).first()
         item_to_edit.item_quantity = int(item_to_edit.item_quantity) - int(quantity)
 
-        if int(item_to_edit.item_quantity) - int(quantity) <= 0:
+        if int(item_to_edit.item_quantity) < 0:
             print("Quantity entered is more than the stock available")
             return redirect(url_for('itemlisting'))
-            
+
         db.session.add(item_to_edit)
         db.session.commit()        
 
@@ -100,6 +102,16 @@ def edit_item(y):
         print("Record successfully edited")
         
         return redirect(url_for('itemlisting'))
+
+@app.route('/charting')
+def charting():    
+    bar_chart = pygal.HorizontalStackedBar()
+    bar_chart.title = "Remarquable sequences"
+    bar_chart.x_labels = map(str, range(11))
+    bar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])
+    bar_chart.add('Padovan', [1, 1, 1, 2, 2, 3, 4, 5, 7, 9, 12]) 
+    chart = bar_chart.render(is_unicode=True)
+    return render_template('charting.html', chart=chart )
 
 if __name__ == '__main__':
     app.run(debug = True)

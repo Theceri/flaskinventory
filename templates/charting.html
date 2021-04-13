@@ -13,7 +13,7 @@
     <!-- datatables -->
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <title>Edit Inventory</title>
+    <title>Charts</title>
 </head>
 
 <body>
@@ -35,34 +35,9 @@
                 </ul>
             </div>
         </div>
-    </nav>
-    
-    <div class="container">
-        <form action="/{{item.id}}/edit" method="POST">
-            <div class="mb-3">
-                <label for="" class="form-label">Item Name</label>
-                <input type="text" class="form-control" name="item_name" value="{{item.item_name}}" id="item_name" aria-describedby="emailHelp">
-            </div>
+    </nav>    
 
-            <input type="hidden" name="id" value="{{item.id}}" id="" aria-describedby="" disabled>
-
-            <div class="mb-3">
-                <label for="" class="form-label">Item Quantity</label>
-                <input type="text" class="form-control" name="item_quantity" value="{{item.item_quantity}}" id="item_quantity" aria-describedby="">
-            </div>
-            <div class="mb-3">
-                <label for="" class="form-label">Item Buying Price</label>
-                <input type="text" class="form-control" name="item_buying_price" value="{{item.item_buying_price}}" id="item_buying_price"
-                    aria-describedby="">
-            </div>
-            <div class="mb-3">
-                <label for="" class="form-label">Item Selling Price</label>
-                <input type="text" class="form-control" name="item_selling_price" value="{{item.item_selling_price}}" id="item_selling_price"
-                    aria-describedby="">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+    {{chart|safe}}
 
     <!-- datatables -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
