@@ -3,6 +3,7 @@ from configs.base_config import Development, Staging, Production
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pygal
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object(Development)
@@ -104,14 +105,25 @@ def edit_item(y):
         return redirect(url_for('itemlisting'))
 
 @app.route('/charting')
-def charting():    
-    bar_chart = pygal.HorizontalStackedBar()
-    bar_chart.title = "Remarquable sequences"
-    bar_chart.x_labels = map(str, range(11))
-    bar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])
-    bar_chart.add('Padovan', [1, 1, 1, 2, 2, 3, 4, 5, 7, 9, 12]) 
+def charting():
+    sales = Sale.query.all()
+
+    inv_dict = {}
+
+    for i in sales:
+        date_str =  i.created_at.strftime("%m-%d-%Y")
+        if date_str in inv_dict.keys(): 
+            inv_dict[date_str] =  inv_dict[date_str] + i.quantity
+        else:
+            inv_dict[date_str] = i.quantity
+
+    bar_chart = pygal.HorizontalBar()
+    bar_chart.title = "Sales made on different days"
+    bar_chart.x_labels = map(str, inv_dict.keys())
+    bar_chart.add('Value of Sales', inv_dict)
     chart = bar_chart.render(is_unicode=True)
-    return render_template('charting.html', chart=chart )
+
+    return render_template("charting.html", chart = chart)
 
 if __name__ == '__main__':
     app.run(debug = True)
