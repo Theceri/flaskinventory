@@ -117,7 +117,7 @@ def charting():
         else:
             inv_dict[date_str] = i.quantity
 
-    bar_chart = pygal.HorizontalBar()
+    bar_chart = pygal.Bar()
     bar_chart.title = "Sales made on different days"
     bar_chart.x_labels = map(str, inv_dict.keys())
     bar_chart.add('Value of Sales', inv_dict)
