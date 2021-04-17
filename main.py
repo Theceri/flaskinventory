@@ -6,7 +6,7 @@ import pygal
 # from flask_login import LoginManager
 
 app = Flask(__name__)
-app.config.from_object(Production) # comment
+app.config.from_object(Production) # comment new comment
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:5432/flaskinventory'
 db = SQLAlchemy(app)
 # login_manager = LoginManager(app)
