@@ -17,4 +17,4 @@ class Staging(Base):
     pass
 
 class Production(Base):
-    SQLALCHEMY_DATABASE_URI='postgres://epvmspvrysesob:b7a049bb4d4c1f70cf35aa3a1783d9b9e107c929bcb37b5b2688934e513de6c8@ec2-54-74-14-109.eu-west-1.compute.amazonaws.com:5432/dd2gvjikckce4t'
+    SQLALCHEMY_DATABASE_URI='postgres://epvmspvrysesob:b7a049bb4d4c1f70cf35aa3a1783d9b9e107c929bcb37b5b2688934e513de6c8@ec2-54-74-14-109.      eu-west-1.compute.amazonaws.com:5432/dd2gvjikckce4t'
