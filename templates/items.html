@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add Inventory Item
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" name="item_name" id="item_name"
+                                aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Item Quantity</label>
+                            <input type="text" class="form-control" name="item_quantity" id="item_quantity"
+                                aria-describedby="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Item Buying Price</label>
+                            <input type="text" class="form-control" name="item_buying_price" id="item_buying_price"
+                                aria-describedby="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Item Selling Price</label>
+                            <input type="text" class="form-control" name="item_selling_price"
+                                id="item_selling_price" aria-describedby="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Buying Price</th>
+                <th scope="col">Selling Price</th>
+                <th scope="col">View Sales</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Make Sale</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td></td>
+                <td>{{item.id}}</td>
+                <td>{{item.item_name}}</td>
+                <td>{{item.item_quantity}}</td>
+                <td>{{item.item_buying_price}}</td>
+                <td>{{item.item_selling_price}}</td>
+                <td>
+                    <a href="/sale/{{item.id}}" type="button" class="btn btn-outline-secondary" data-bs-toggle=""
+                        data-bs-target="">
+                        View Sales
+                    </a>
+                </td>
+                <td>
+                    <a href="/{{item.id}}/edit" type="button" class="btn btn-primary" data-bs-toggle=""
+                        data-bs-target="">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal{{item.id}}">
+                        Make Sale
+                    </button>
+                    <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true" data-target>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Make Sale</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/sales" method="post">
+                                        <input type="hidden" name="item_id" value="{{item.id}}">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Quantity</label>
+                                            <input type="text" class="form-control" name="item_quantity"
+                                                id="item_quantity" aria-describedby="emailHelp">
+                                        </div>
+                                        <input type="submit" class="btn btn-primary">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
