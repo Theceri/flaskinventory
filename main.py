@@ -3,12 +3,13 @@ from configs.base_config import Development, Staging, Production
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pygal
-from datetime import datetime
+# from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config.from_object(Development)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:5432/flaskinventory'
 db = SQLAlchemy(app)
+# login_manager = LoginManager(app)
 
 @app.before_first_request
 def create_tables():
@@ -22,11 +23,12 @@ class Item(db.Model):
     item_quantity = db.Column(db.Integer, unique=False)
     item_buying_price = db.Column(db.Integer, unique=False)
     item_selling_price = db.Column(db.Integer, unique=False)
+    item_status = db.Column(db.Integer, unique=False)
 
 class Sale(db.Model):
     __tablename__ = 'sales'
     id = db.Column(db.Integer, primary_key=True, autoincrement = True)
-    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), autoincrement = True)
     quantity = db.Column(db.Integer, unique=False)
     created_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     
@@ -124,6 +126,15 @@ def charting():
     chart = bar_chart.render(is_unicode=True)
 
     return render_template("charting.html", chart = chart)
+
+@app.route('/delete/<int:id>', methods = ['GET', 'POST'])
+def delete(id):
+    item_to_delete = Item.query.get_or_404(id)
+
+    db.session.delete(item_to_delete)
+    db.session.commit()
+
+    return redirect(url_for('itemlisting'))
 
 if __name__ == '__main__':
     app.run(debug = True)

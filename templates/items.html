@@ -54,8 +54,9 @@
                 <th scope="col">Buying Price</th>
                 <th scope="col">Selling Price</th>
                 <th scope="col">View Sales</th>
-                <th scope="col">Edit Record</th>
+                <th scope="col">Edit</th>
                 <th scope="col">Make Sale</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -76,7 +77,7 @@
                 <td>
                     <a href="/{{item.id}}/edit" type="button" class="btn btn-primary" data-bs-toggle=""
                         data-bs-target="">
-                        Edit Record
+                        Edit
                     </a>
                 </td>
                 <td>
@@ -107,6 +108,9 @@
                             </div>
                         </div>
                     </div>
+                </td>
+                <td>
+                    
                 </td>
             </tr>
             {% endfor %}
